@@ -19,11 +19,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const SmartBizApp());
+  runApp(const ShoppupApp());
 }
 
-class SmartBizApp extends StatelessWidget {
-  const SmartBizApp({super.key});
+class ShoppupApp extends StatelessWidget {
+  const ShoppupApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class SmartBizApp extends StatelessWidget {
       child: MaterialApp(
         home: const SplashPage(),
         debugShowCheckedModeBanner: false,
-        title: 'SmartBiz',
+        title: 'Shoppup',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(

@@ -94,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   
                   // Title
                   const Text(
-                    'Join SmartBez',
+                    'Join Shoppup',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,

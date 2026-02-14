@@ -81,7 +81,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
               const SizedBox(height: 30),
               // App Name
               const Text(
-                "SmartBez",
+                "Shoppup",
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.bold,

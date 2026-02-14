@@ -29,7 +29,7 @@ class ClientHomePage extends StatelessWidget {
             ),
             child: TextField(
               decoration: InputDecoration(
-                hintText: 'Search SmartBez',
+                hintText: 'Search Shoppup',
                 hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
                 prefixIcon: const Icon(
                   Icons.search,

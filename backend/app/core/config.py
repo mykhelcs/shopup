@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     
     # Database
+    # For local dev without PostgreSQL, you can use: 
+    # DATABASE_URL=sqlite+aiosqlite:///./test.db
     DATABASE_URL: str = "postgresql+asyncpg://postgres:password@localhost:5432/smartbez"
     
     # Firebase

@@ -11,9 +11,13 @@ from contextlib import asynccontextmanager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    async with engine.begin() as conn:
-        # Create tables - useful for dev, use Alembic for prod
-        await conn.run_sync(Base.metadata.create_all)
+    try:
+        async with engine.begin() as conn:
+            # Create tables - useful for dev, use Alembic for prod
+            await conn.run_sync(Base.metadata.create_all)
+    except Exception as e:
+        print(f"Warning: Could not connect to database during startup: {e}")
+        print("Backend will continue, but database-dependent features will fail.")
     yield
 
 app = FastAPI(

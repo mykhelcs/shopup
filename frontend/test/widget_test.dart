@@ -16,10 +16,10 @@ void main() {
       home: SplashPage(),
     ));
 
-    // Verify that SplashPage shows the logo and loading text
-    expect(find.byType(Image), findsOneWidget);
-    expect(find.text('SmartBez'), findsOneWidget);
-    expect(find.text('Loading...'), findsOneWidget);
+    // Verify that SplashPage shows the icon and branding text
+    expect(find.byType(Icon), findsOneWidget);
+    expect(find.text('Shoppup'), findsOneWidget);
+    expect(find.text('Your Smart Shopping Companion'), findsOneWidget);
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 }
