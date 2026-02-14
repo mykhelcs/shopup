@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+sqlalchemy
+asyncpg
+pydantic
+pydantic-settings
+python-multipart
+firebase-admin
+alembic
+psycopg2-binary
+pytest
+httpx
