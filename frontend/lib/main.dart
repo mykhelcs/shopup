@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:smartbez/presentation/screens/auth/login_page.dart';
 import 'package:smartbez/presentation/screens/auth/register_page.dart';
 import 'package:smartbez/presentation/screens/dashboard/cart_page.dart';
@@ -19,6 +21,17 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  if (kIsWeb) {
+    // Initialize Facebook Auth for Web
+    await FacebookAuth.instance.webAndDesktopInitialize(
+      appId: "908693058751060",
+      cookie: true,
+      xfbml: true,
+      version: "v19.0",
+    );
+  }
+
   runApp(const ShoppupApp());
 }
 

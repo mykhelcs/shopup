@@ -1,3 +1,7 @@
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
+
 allprojects {
     repositories {
         google()
@@ -22,3 +26,7 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+dependencies {
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+}
+

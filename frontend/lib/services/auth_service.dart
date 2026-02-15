@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -51,7 +53,52 @@ class AuthService {
   // Sign out
   Future<void> signOut() async {
     await _auth.signOut();
+    await GoogleSignIn().signOut();
+    await FacebookAuth.instance.logOut();
   }
+
+  // Sign in with Google
+  Future<UserCredential> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) throw Exception('Google sign-in cancelled');
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      return await _auth.signInWithCredential(credential);
+    } catch (e) {
+      throw Exception('Google Sign-In failed: $e');
+    }
+  }
+
+  // Sign in with Facebook
+  Future<UserCredential> signInWithFacebook() async {
+  try {
+    final LoginResult result = await FacebookAuth.instance.login(
+      permissions: ['public_profile'],
+    );
+
+    if (result.status == LoginStatus.success) {
+      final AuthCredential credential = FacebookAuthProvider.credential(
+  result.accessToken!.tokenString, // ✅ correct for current package version
+);
+
+      return await _auth.signInWithCredential(credential);
+    } else if (result.status == LoginStatus.cancelled) {
+      throw Exception('Facebook sign-in cancelled');
+    } else {
+      throw Exception('Facebook sign-in failed: ${result.message}');
+    }
+  } catch (e) {
+    throw Exception('Facebook Login failed: $e');
+  }
+}
+
+
 
   // Handle Firebase Auth exceptions
   String _handleAuthException(FirebaseAuthException e) {

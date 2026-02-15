@@ -1,12 +1,20 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ApiService {
-  // TODO: Update this to your actual backend URL
-  // For Android emulator: http://10.0.2.2:8000
-  // For iOS simulator: http://localhost:8000
-  // For physical device: http://YOUR_IP:8000
-  static const String baseUrl = 'http://10.0.2.2:8000';
+  // Dynamically determine baseUrl based on platform
+  static String get baseUrl {
+    if (kIsWeb) {
+      return 'http://localhost:8000';
+    } else if (Platform.isAndroid) {
+      return 'http://10.0.2.2:8000';
+    } else {
+      // iOS Simulator and others
+      return 'http://localhost:8000';
+    }
+  }
 
   // Verify Firebase token with backend
   Future<Map<String, dynamic>> verifyToken(String idToken) async {

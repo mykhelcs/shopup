@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>663414398790-2cr1jm8dsoi91h1lk0ql7mr9m829ae1l.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.663414398790-2cr1jm8dsoi91h1lk0ql7mr9m829ae1l</string>
+	<key>API_KEY</key>
+	<string>AIzaSyALytjza7WbCeXCuE3Gpks-TcjNpZc03FY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>663414398790</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.smartbez</string>
+	<key>PROJECT_ID</key>
+	<string>smartbez</string>
+	<key>STORAGE_BUCKET</key>
+	<string>smartbez.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:663414398790:ios:eb1d276a68953c42180f47</string>
+	<key>DATABASE_URL</key>
+	<string>https://smartbez-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

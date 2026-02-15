@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'register_page.dart';
-import '../../../services/auth_provider.dart';
+import 'package:smartbez/presentation/screens/auth/register_page.dart';
+import 'package:smartbez/services/auth_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -47,6 +47,30 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(authProvider.errorMessage ?? 'Login failed'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleSocialLogin(BuildContext context, String provider) async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    bool success = false;
+    
+    if (provider == 'google') {
+      success = await authProvider.signInWithGoogle();
+    } else if (provider == 'facebook') {
+      success = await authProvider.signInWithFacebook();
+    }
+
+    if (!mounted) return;
+
+    if (success) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(authProvider.errorMessage ?? 'Social login failed'),
           backgroundColor: Colors.red,
         ),
       );
@@ -154,28 +178,81 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 24),
 
-                  // Login Button
+                  // Login and Social Login actions
                   Consumer<AuthProvider>(
                     builder: (context, authProvider, child) {
-                      return SizedBox(
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: authProvider.isLoading ? null : _handleLogin,
-                          child: authProvider.isLoading
-                              ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 2,
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // Login Button
+                          SizedBox(
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: authProvider.isLoading ? null : _handleLogin,
+                              child: authProvider.isLoading
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Text('LOGIN'),
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          
+                          // Divider
+                          const Row(
+                            children: [
+                              Expanded(child: Divider()),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: Text('OR', style: TextStyle(color: Colors.grey)),
+                              ),
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+                          const SizedBox(height: 24),
+
+                          // Social Login Buttons
+                          Row(
+                            children: [
+                              // Google Button
+                              Expanded(
+                                child: OutlinedButton.icon(
+                                  onPressed: authProvider.isLoading ? null : () => _handleSocialLogin(context, 'google'),
+                                  icon: Image.network(
+                                    'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png',
+                                    height: 20,
                                   ),
-                                )
-                              : const Text('LOGIN'),
-                        ),
+                                  label: const Text('Google'),
+                                  style: OutlinedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              // Facebook Button
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: authProvider.isLoading ? null : () => _handleSocialLogin(context, 'facebook'),
+                                  icon: const Icon(Icons.facebook, color: Colors.white),
+                                  label: const Text('Facebook'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF1877F2),
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       );
                     },
                   ),
-                  const SizedBox(height: 16),
 
                   // Register Link
                   Row(

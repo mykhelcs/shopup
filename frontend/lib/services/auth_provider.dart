@@ -159,6 +159,80 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  // Sign in with Google
+  Future<bool> signInWithGoogle() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final credential = await _authService.signInWithGoogle();
+      _user = credential.user;
+
+      if (_user != null) {
+        await _handleAfterSocialSignIn(_user!);
+      }
+
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  // Sign in with Facebook
+  Future<bool> signInWithFacebook() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final credential = await _authService.signInWithFacebook();
+      _user = credential.user;
+
+      if (_user != null) {
+        await _handleAfterSocialSignIn(_user!);
+      }
+
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  // Shared logic for social sign-in (sync with backend, check Firestore)
+  Future<void> _handleAfterSocialSignIn(User user) async {
+    try {
+      // 1. Ensure user exists in Firestore
+      final profileSnapshot = await _firestoreService.getUserProfile(user.uid);
+      if (!profileSnapshot.exists) {
+        await _firestoreService.writeUserDataToFirestore(
+          user.uid,
+          user.displayName ?? user.email?.split('@')[0] ?? 'User',
+          user.email ?? '',
+        );
+      }
+
+      // 2. Verify token with backend
+      final token = await _authService.getIdToken();
+      if (token != null) {
+        await _apiService.verifyToken(token);
+        await _loadUserProfile();
+      }
+    } catch (e) {
+      debugPrint('Social login sync error (non-critical): $e');
+    }
+  }
+
   // Sign out
   Future<void> signOut() async {
     await _authService.signOut();

@@ -43,7 +43,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
       Navigator.pushReplacementNamed(context, '/home');
     } else {
       // User is not logged in, go to login page
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 
